@@ -1,19 +1,3 @@
-<!doctype html> 
-
-<html lang="en"> 
-
-<head> 
-
-  <meta charset="utf-8" /> 
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" /> 
-
-  <link href="{{ asset('/css/app.css') }}" rel="stylesheet" /> 
-
-  <title>@yield('title', 'Online Store')</title> 
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,6 +23,16 @@
           <a class="nav-link active" href="{{ route('home.about') }}">About</a>
           <a class="nav-link active" href="{{ route('home.contact') }}">Contact</a>
           <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
+          <div class="vr bg-white mx-2 d-none d-lg-block"></div>
+          @guest
+          <a class="nav-link active" href="{{ route('login') }}">Login</a>
+          <a class="nav-link active" href="{{ route('register') }}">Register</a>
+          @else
+          <form id="logout" action="{{ route('logout') }}" method="POST">
+            <a role="button" class="nav-link active" onclick="document.getElementById('logout').submit();">Logout</a>
+            @csrf
+          </form>
+          @endguest
         </div>
       </div>
     </div>
@@ -50,7 +44,7 @@
     </div>
   </header>
 
-  <!-- header -->
+  <!-- content -->
   <div class="container my-4">
     @yield('content')
   </div>

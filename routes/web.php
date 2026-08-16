@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
 
@@ -41,3 +42,5 @@ Route::get('/products/create', 'App\Http\Controllers\ProductController@create')-
 Route::post('/products/save', 'App\Http\Controllers\ProductController@save')->name("product.save"); 
 
 Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name("product.show"); 
+
+Auth::routes();
