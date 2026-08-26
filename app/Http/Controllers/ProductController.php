@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 
 class ProductController extends Controller
 {
@@ -20,7 +21,7 @@ class ProductController extends Controller
         $viewData = [];
         $viewData['title'] = 'Products - Online Store';
         $viewData['subtitle'] = 'List of products';
-        $viewData['products'] = self::$products;
+        $viewData['products'] = Product::all();
 
         return view('product.index')->with('viewData', $viewData);
     }
@@ -29,15 +30,18 @@ class ProductController extends Controller
     {
         $index = (int) $id - 1;
 
-        if (!isset(self::$products[$index])) {
+        $product = Product::find($id);
+
+        if (! $product) {
             return redirect()->route('home.index');
         }
 
         $product = self::$products[$index];
 
         $viewData = [];
-        $viewData['title'] = $product['name'] . ' - Online Store';
-        $viewData['subtitle'] = $product['name'] . ' - Product information';
+        $product = Product::findOrFail($id);
+        $viewData['title'] = $product['name'].' - Online Store';
+        $viewData['subtitle'] = $product['name'].' - Product information';
         $viewData['product'] = $product;
 
         return view('product.show')->with('viewData', $viewData);
@@ -58,11 +62,10 @@ class ProductController extends Controller
             'price' => 'required',
         ]);
 
-        // dd($request->all()); // Puedes desmarcar si necesitas depurar el formulario
+        dd($request->all());
+        // Puedes desmarcar si necesitas depurar el formulario
+        Product::create($request->only(['name', 'price']));
 
         return back();
     }
 }
-
-
-
