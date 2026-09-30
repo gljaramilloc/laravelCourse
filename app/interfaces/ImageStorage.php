@@ -8,5 +8,3 @@ interface ImageStorage
 {
     public function store(Request $request): void;
 }
-
-
